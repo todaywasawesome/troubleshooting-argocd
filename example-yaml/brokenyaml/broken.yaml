@@ -39,7 +39,7 @@ spec:
       release: brokenyaml
   template:
     metadata:
-    labels:
+    labels: #Bad Indent
       app: helm-guestbook
       release: brokenyaml
     spec:
