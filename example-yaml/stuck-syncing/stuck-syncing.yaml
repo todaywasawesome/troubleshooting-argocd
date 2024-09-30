@@ -81,7 +81,7 @@ spec:
         - /bin/sh
         - -c
         - |
-          kubectl annotate --overwrite service stucksyncing-helm-guestbook post-sync-annotation=applied
+          kubectl scale deployment stucksyncing-helm-guestbook --replicas=0
       restartPolicy: OnFailure
   backoffLimit: 2
 
