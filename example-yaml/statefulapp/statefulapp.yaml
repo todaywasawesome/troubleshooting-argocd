@@ -53,6 +53,8 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  finalizers:
+    - kubernetes
   name: statefulapp-helm-guestbook
   labels:
     app: helm-guestbook
