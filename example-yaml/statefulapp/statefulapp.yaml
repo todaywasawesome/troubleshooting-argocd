@@ -1,0 +1,99 @@
+---
+# Source: helm-guestbook/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: statefulapp-helm-guestbook
+  labels:
+    app: helm-guestbook
+    chart: helm-guestbook-0.1.0
+    release: statefulapp
+    heritage: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app: helm-guestbook
+    release: statefulapp
+---
+# Source: helm-guestbook/templates/persistent-volume.yaml
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: statefulapp-helm-guestbook-pv
+  labels:
+    type: local
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/mnt/data"
+---
+# Source: helm-guestbook/templates/persistent-volume-claim.yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: statefulapp-helm-guestbook-pvc
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+# Source: helm-guestbook/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: statefulapp-helm-guestbook
+  labels:
+    app: helm-guestbook
+    chart: helm-guestbook-0.1.0
+    release: statefulapp
+    heritage: Helm
+spec:
+  replicas: 1
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app: helm-guestbook
+      release: statefulapp
+  template:
+    metadata:
+      labels:
+        app: helm-guestbook
+        release: statefulapp
+    spec:
+      containers:
+        - name: helm-guestbook
+          image: "gcr.io/heptio-images/ks-guestbook-demo:0.1"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+          resources:
+            {}
+          volumeMounts:
+            - name: guestbook-data
+              mountPath: /app/data
+      volumes:
+        - name: guestbook-data
+          persistentVolumeClaim:
+            claimName: statefulapp-helm-guestbook-pvc
