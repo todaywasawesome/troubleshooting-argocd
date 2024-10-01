@@ -28,9 +28,8 @@ Login to argocd `argocd login localhost:8080 --username admin --password $ARGO_P
 
 ## Example Apps
 Install the broken version of apps: 
-`kubectl apply -f example-apps/**/*-broken.yaml -n argocd`
+`for f in example-apps/**/*-broken.yaml; do kubectl apply -f $f; done`
 
-### 01-app-sync-resources
 
 ### 05 Cluster Issues
 
