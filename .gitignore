@@ -1,0 +1,2 @@
+#Ignore the argocd-port-forward.pid file
+.argocd-port-forward.pid
