@@ -39,9 +39,9 @@ spec:
       release: brokenyaml
   template:
     metadata:
-    labels: #Bad Indent
-      app: helm-guestbook
-      release: brokenyaml
+      labels: #Bad Indent
+        app: helm-guestbook
+        release: brokenyaml
     spec:
       containers:
         - name: helm-guestbook
