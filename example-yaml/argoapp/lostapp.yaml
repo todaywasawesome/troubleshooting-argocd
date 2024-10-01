@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: four-lost-app2
+  name: four-lost-app
 spec:
   destination:
     name: ''
