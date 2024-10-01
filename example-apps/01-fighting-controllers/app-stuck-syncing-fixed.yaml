@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: one-fighting-controllers
+  namespace: argocd
+spec:
+  destination:
+    namespace: default
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    path: example-yaml/stuck-syncing/
+    repoURL: https://github.com/todaywasawesome/troubleshooting-argocd/
+    targetRevision: demo
+  ignoreDifferences: #Ignore the replicas difference in case there is a pod autoscaler.
+  - group: apps
+    kind: Deployment
+    jsonPointers:
+    - /spec/replicas

@@ -1,3 +1,7 @@
+# This file is used to give the argocd application controller the right permissions to scale resources.
+# WARNING: Applying this service account gives the argocd application controller more permissions than
+# it is meant to have. It's not a great security idea to let your users modify kubernetes resources
+# in jobs willy nilly.
 ---
 apiVersion: v1
 kind: ServiceAccount

@@ -1,0 +1,1 @@
+This examples has a broken yaml file that will cause the application to fail sync. This is because of bad indentation in the source yaml. 
